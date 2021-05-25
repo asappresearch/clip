@@ -1,0 +1,10 @@
+python neural_baselines.py ../../../data/all_revised_data/train.csv cnn --criterion auc_macro --vocab_file vocab_20210126.txt --embed_file embs_20210126_with_special_tokens.pkl --seed 1337
+python neural_baselines.py ../../../data/all_revised_data/train.csv cnn --criterion auc_macro --vocab_file vocab_20210126.txt --embed_file embs_20210126_with_special_tokens.pkl --seed 1338
+python neural_baselines.py ../../../data/all_revised_data/train.csv cnn --criterion auc_macro --vocab_file vocab_20210126.txt --embed_file embs_20210126_with_special_tokens.pkl --seed 1339
+python neural_baselines.py ../../../data/all_revised_data/train.csv cnn --criterion auc_macro --vocab_file vocab_20210126.txt --embed_file embs_20210126_with_special_tokens.pkl --seed 1340
+python neural_baselines.py ../../../data/all_revised_data/train.csv cnn --criterion auc_macro --vocab_file vocab_20210126.txt --embed_file embs_20210126_with_special_tokens.pkl --seed 1341
+python neural_baselines.py ../../../data/all_revised_data/train.csv cnn --criterion auc_macro --vocab_file vocab_20210126.txt --embed_file embs_20210126_with_special_tokens.pkl --seed 1342
+python neural_baselines.py ../../../data/all_revised_data/train.csv cnn --criterion auc_macro --vocab_file vocab_20210126.txt --embed_file embs_20210126_with_special_tokens.pkl --seed 1343
+python neural_baselines.py ../../../data/all_revised_data/train.csv cnn --criterion auc_macro --vocab_file vocab_20210126.txt --embed_file embs_20210126_with_special_tokens.pkl --seed 1344
+python neural_baselines.py ../../../data/all_revised_data/train.csv cnn --criterion auc_macro --vocab_file vocab_20210126.txt --embed_file embs_20210126_with_special_tokens.pkl --seed 1345
+python neural_baselines.py ../../../data/all_revised_data/train.csv cnn --criterion auc_macro --vocab_file vocab_20210126.txt --embed_file embs_20210126_with_special_tokens.pkl --seed 1346

@@ -1,0 +1,10 @@
+python bert.py ../../../data/all_revised_data/train.csv bert --n_context_sentences 2 --criterion auc_macro --seed 1337 --local_weights results/bert-base-uncased_Jan_19_05:38:12/model_mlm_switch_best_vl_loss.pth
+python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1338 --local_weights results/bert-base-uncased_Jan_19_05:38:12/model_mlm_switch_best_vl_loss.pth
+python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1339 --local_weights results/bert-base-uncased_Jan_19_05:38:12/model_mlm_switch_best_vl_loss.pth
+python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1340 --local_weights results/bert-base-uncased_Jan_19_05:38:12/model_mlm_switch_best_vl_loss.pth
+python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1341 --local_weights results/bert-base-uncased_Jan_19_05:38:12/model_mlm_switch_best_vl_loss.pth
+python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1342 --local_weights results/bert-base-uncased_Jan_19_05:38:12/model_mlm_switch_best_vl_loss.pth
+python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1343 --local_weights results/bert-base-uncased_Jan_19_05:38:12/model_mlm_switch_best_vl_loss.pth
+python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1344 --local_weights results/bert-base-uncased_Jan_19_05:38:12/model_mlm_switch_best_vl_loss.pth
+python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1345 --local_weights results/bert-base-uncased_Jan_19_05:38:12/model_mlm_switch_best_vl_loss.pth
+python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1346 --local_weights results/bert-base-uncased_Jan_19_05:38:12/model_mlm_switch_best_vl_loss.pth
