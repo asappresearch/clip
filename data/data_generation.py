@@ -166,8 +166,6 @@ def tags_to_IO_finegrained(label_sentences, possible_labels):
                 bio_label_sent.append(["O"])
             else:
                 bio_label = []
-                if any([key in 'NOT' for key in label]):
-                    import pdb; pdb.set_trace()
                 bio_label.extend(list(set(["I-" + key for key in label])))
                 bio_label_sent.append(bio_label)
         assert len(label_sent) == len(bio_label_sent)
@@ -358,7 +356,6 @@ def main(args):
             for sent_ix, (offset, label) in enumerate(zip(offsets, labels)):
                 for lbl in label:
                     if lbl != 'O':
-                        import pdb; pdb.set_trace()
                         span = Span(
                             id=sent_ix,
                             type=lbl[2:], # get rid of I- prefix

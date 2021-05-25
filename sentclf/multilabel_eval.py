@@ -122,7 +122,6 @@ def balance_each_label(yhat_raw, y, get_high_prec_thresh=False):
     return metrics, label_balanced_threshs, label_high_prec_threshs, label_high_prec_recs, label_rec_values
 
 def balanced_f1_multilabel(yhat_raw, yy):
-    #### OUTDATED, maybe needs update if you want to use
     names = ["prec", "rec", "f1"]
     metric_threshs = {label2abbrev[label]: defaultdict(list) for label in LABEL_TYPES}
     per_label_metrics = {label2abbrev[label]: defaultdict(float) for label in LABEL_TYPES}

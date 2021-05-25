@@ -223,10 +223,7 @@ def gather_predictions(args, model, loader, task, device, doc_position=False, se
             doc_ids.extend(x['doc_ids'])
             sent_ixs.extend(x['sent_ixs'])
             inputs = select_inputs(x, args)
-            try:
-                loss, pred = model(**inputs)
-            except:
-                import pdb; pdb.set_trace()
+            loss, pred = model(**inputs)
             if task == 'multilabel':
                 pred = torch.sigmoid(pred)
             else:
@@ -337,7 +334,7 @@ def evaluate(args, model, dv_loader, task, device, tokenizer, save_fps=False, ou
                 high_prec_fps = high_thresh_suggestions(dv_loader, yhat_raw[:,ix], y[:,ix], 0.5, out_dir, label2abbrev[label], 'val_50', 'neg')
                 print("GATHERING FALSE POSITIVES")
                 high_rec_fns = high_thresh_suggestions(dv_loader, yhat_raw[:,ix], y[:,ix], 0.5, out_dir, label2abbrev[label], 'val_50', 'pos')
-                # true positive examples, f it why not
+                # true positive examples, why not
                 print("GATHERING TRUE POSITIVES")
                 tps = high_thresh_suggestions(dv_loader, yhat_raw[:,ix], y[:,ix], 0.5, out_dir, label2abbrev[label], 'val_50', 'true_pos')
 
@@ -396,8 +393,6 @@ def load_pretrained_local(model, args):
                     'bias': sd['conv.bias'],
                     }
             model.conv.load_state_dict(sd_conv)
-        #if args.doc_position:
-        #    import pdb; pdb.set_trace()
         sd_bert = {k[len('bert.'):] : v for k, v in sd.items() if 'bert' in k}
         model.bert.load_state_dict(sd_bert)
 
