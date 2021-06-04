@@ -94,7 +94,7 @@ def main():
     date = datetime.strftime(datetime.today(), '%Y%m%d')
     num_examples = 0
     num_selected = 0
-    with open(f'{out_dir}/pretrain_doc_sents_{date}_{args.threshold}.csv', 'w') as of:
+    with open(f'{out_dir}/ttp_doc_sents.csv', 'w') as of:
         w = csv.writer(of)
         with torch.no_grad():
             model.eval()
