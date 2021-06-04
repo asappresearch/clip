@@ -1,10 +1,4 @@
-python bert.py ../../../data/all_revised_data/train.csv bert --n_context_sentences 2 --criterion auc_macro --seed 1347 --local_weights results/bert-base-uncased_Jan_27_17:22:32/model_mlm_switch_best_vl_loss.pth
-python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1348 --local_weights results/bert-base-uncased_Jan_27_17:22:32/model_mlm_switch_best_vl_loss.pth
-python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1349 --local_weights results/bert-base-uncased_Jan_27_17:22:32/model_mlm_switch_best_vl_loss.pth
-python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1350 --local_weights results/bert-base-uncased_Jan_27_17:22:32/model_mlm_switch_best_vl_loss.pth
-python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1351 --local_weights results/bert-base-uncased_Jan_27_17:22:32/model_mlm_switch_best_vl_loss.pth
-python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1352 --local_weights results/bert-base-uncased_Jan_27_17:22:32/model_mlm_switch_best_vl_loss.pth
-python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1353 --local_weights results/bert-base-uncased_Jan_27_17:22:32/model_mlm_switch_best_vl_loss.pth
-python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1354 --local_weights results/bert-base-uncased_Jan_27_17:22:32/model_mlm_switch_best_vl_loss.pth
-python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1355 --local_weights results/bert-base-uncased_Jan_27_17:22:32/model_mlm_switch_best_vl_loss.pth
-python bert.py ../../../data/all_revised_data/train.csv bert  --n_context_sentences 2 --criterion auc_macro --seed 1356 --local_weights results/bert-base-uncased_Jan_27_17:22:32/model_mlm_switch_best_vl_loss.pth
+for seed in {1347..1356}
+do
+  python bert.py ../data/train.csv bert --criterion auc_macro --local_weights results/bert_ttp_500k/model.pth --seed $seed --run_test
+done

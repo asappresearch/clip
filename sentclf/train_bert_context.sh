@@ -1,10 +1,4 @@
-python bert.py ../../../data/all_revised_data/train.csv  bert --criterion auc_macro --n_context_sentences 2 --seed 1337
-python bert.py ../../../data/all_revised_data/train.csv  bert --criterion auc_macro --n_context_sentences 2 --seed 1338
-python bert.py ../../../data/all_revised_data/train.csv  bert --criterion auc_macro --n_context_sentences 2 --seed 1339
-python bert.py ../../../data/all_revised_data/train.csv  bert --criterion auc_macro --n_context_sentences 2 --seed 1340
-python bert.py ../../../data/all_revised_data/train.csv  bert --criterion auc_macro --n_context_sentences 2 --seed 1341
-python bert.py ../../../data/all_revised_data/train.csv  bert --criterion auc_macro --n_context_sentences 2 --seed 1342
-python bert.py ../../../data/all_revised_data/train.csv  bert --criterion auc_macro --n_context_sentences 2 --seed 1343
-python bert.py ../../../data/all_revised_data/train.csv  bert --criterion auc_macro --n_context_sentences 2 --seed 1344
-python bert.py ../../../data/all_revised_data/train.csv  bert --criterion auc_macro --n_context_sentences 2 --seed 1345
-python bert.py ../../../data/all_revised_data/train.csv  bert --criterion auc_macro --n_context_sentences 2 --seed 1346
+for seed in {1337..1346}
+do
+  python bert.py ../data/train.csv bert --criterion auc_macro --n_context_sentences 2 --seed $seed --run_test
+done
