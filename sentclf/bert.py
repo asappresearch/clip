@@ -240,13 +240,13 @@ def gather_predictions(args, model, loader, task, device, doc_position=False, se
         y = np.array(y)
     return yhat_raw, yhat, y, sentences, doc_ids, sent_ixs
 
-def run_on_test(args, model, loader, task, device, tokenizer, out_dir, label_threshs, micro_thresh, doc_position, save_fps, rec_90_thresh, rec_95_thresh, rec_99_thresh):
+def run_on_test(args, model, loader, task, device, tokenizer, out_dir, label_threshs, micro_thresh, doc_position, save_fps, rec_90_thresh, rec_95_thresh, rec_99_thresh, do_plot=False):
     # apply model to test set and compute metrics, plots, save examples
     print("EVALUATING MODEL ON TEST DATASET...")
     yhat_raw, yhat, y, sentences, doc_ids, sent_ixs = gather_predictions(args, model, loader, task, device, doc_position, max_preds=100 if args.debug else 1e9)
     metrics, _, _, _, _, _ = all_metrics(yhat_raw, yhat, y, task, label_threshs=label_threshs, micro_thresh=micro_thresh, rec_90_thresh=rec_90_thresh, rec_95_thresh=rec_95_thresh, rec_99_thresh=rec_99_thresh)
 
-    if task == 'multilabel':
+    if task == 'multilabel' and do_plot:
         plot_pct_labeled_vs_thresh(yhat_raw, y, out_dir, 'test')
         plot_binarized_recall_vs_thresh(yhat_raw, y, out_dir, 'test')
 
@@ -434,6 +434,7 @@ def main():
     args = parser.parse_args()
 
     print(args.criterion)
+    print(f"python {' '.join(sys.argv[1:])}")
 
     if args.eval_model:
         assert args.max_epochs == 0, "max epochs must be 0 when evaluating a model"
@@ -632,17 +633,25 @@ def main():
             model.load_state_dict(sd)
 
     # run evaluation loop again to get false positive examples, compute specialized metrics, etc
-    print("RUNNING EVALUATION LOOP")
-    metrics, label_threshs, micro_thresh, rec_90_thresh, rec_95_thresh, rec_99_thresh = evaluate(args, model, dv_loader, args.task, trainer.args.device, tokenizer, save_fps=args.save_fps, out_dir=out_dir, return_thresholds=True, doc_position=args.doc_position)
-    print("SAVING LABEL THRESHOLDS")
-    np.save(f'{out_dir}/label_threshs.npy', np.array(label_threshs))
-    np.save(f'{out_dir}/micro_thresh.npy', np.array([micro_thresh]))
+    if not (args.run_test and args.eval_model):
+        print("RUNNING EVALUATION LOOP")
+        metrics, label_threshs, micro_thresh, rec_90_thresh, rec_95_thresh, rec_99_thresh = evaluate(args, model, dv_loader, args.task, trainer.args.device, tokenizer, save_fps=args.save_fps, out_dir=out_dir, return_thresholds=True, doc_position=args.doc_position)
+        print("SAVING LABEL THRESHOLDS")
+        np.save(f'{out_dir}/label_threshs.npy', np.array(label_threshs))
+        np.save(f'{out_dir}/micro_thresh.npy', np.array([micro_thresh]))
+    else:
+        micro_thresh = np.load(f'{out_dir}/micro_thresh.npy')
+        label_threshs = np.load(f'{out_dir}/label_threshs.npy')
+        # just make up some other thresholds cause they aren't reported anyway
+        rec_90_thresh, rec_95_thresh, rec_99_thresh = 0, 0, 0
 
     # run test if applicable
     if args.run_test:
         print("RUNNING TEST")
         te_loader = DataLoader(test_dataset, batch_size=1, shuffle=False, collate_fn=eval_collate_fn)
         test_metrics = run_on_test(args, model, te_loader, args.task, trainer.args.device, tokenizer, out_dir, label_threshs, micro_thresh, args.doc_position, args.save_fps, rec_90_thresh=rec_90_thresh, rec_95_thresh=rec_95_thresh, rec_99_thresh=rec_99_thresh)
+        with open(f"{out_dir}/test_metrics.json", 'w') as of:
+            json.dump(test_metrics, of, indent=1)
 
     print(f"done! results in {out_dir}")
     return eval_results

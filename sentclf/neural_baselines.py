@@ -275,7 +275,7 @@ def collate(batch, word2ix, task):
     # sort by decreasing length
     batch = sorted(batch, key=lambda x: -len(x[0]))
     max_length = len(batch[0][0])
-    for sent, label, doc_id in batch:
+    for sent, label, doc_id, _ in batch:
         toks.append(sent)
         sent = [word2ix.get(w, word2ix[UNK]) for w in sent]
         sent.extend([0 for ix in range(len(sent), max_length)])
@@ -657,7 +657,6 @@ def print_metrics(metrics, task):
     else:
         multilabel_eval.print_metrics(metrics, True, True)
 
-
 def get_embeddings(type_, path, id_to_token):
     if type_ == "GLOVE":
         pretrained = {}
@@ -683,7 +682,6 @@ def get_embeddings(type_, path, id_to_token):
                 random_vector = np.random.uniform(-scale, scale, [DIM_EMBEDDING])
             pretrained_list.append(random_vector)
     return pretrained_list
-
 
 def main(args):
     dev_fname = args.train_fname.replace('train', 'val')
@@ -824,12 +822,16 @@ def main(args):
         eval_loop(model, te_sugg_loader, args.task, out_dir, suggestions_fold="test")
 
     # eval on dev at end
+    print("RUNNING VAL")
     metrics, label_threshs, micro_thresh = eval_loop(model, dv_loader, args.task, out_dir, get_high_prec_thresh=args.high_prec_thresholds, return_thresholds=True)
 
     if args.run_test or args.eval_model:
+        print("RUNNING TEST")
         te_data = SentDataset(test_fname, args.task, tr_data.word2ix)
         te_loader = DataLoader(te_data, batch_size=1, shuffle=False, collate_fn=lambda batch: collate(batch, tr_data.word2ix, args.task))
         test_metrics = run_on_test(model, te_loader, args.task, out_dir, label_threshs, micro_thresh)
+        with open(f"{out_dir}/test_metrics.json", 'w') as of:
+            json.dump(test_metrics, of, indent=1)
     print(f"done! results at {out_dir}")
 
 
