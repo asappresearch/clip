@@ -1,6 +1,3 @@
-# this should basically hopefully replace data_generation.py
-# take recon tool output (doc_id.json / doc_id.pkl) and write out MIMIC_{split}_{binary,finegrained}.sentclf.csv
-
 import json
 import os
 import pandas as pd
@@ -10,7 +7,7 @@ from nltk import word_tokenize
 from utils import section_tokenize
 from agreement import Span, get_sentence_level_labels
 
-base_dir = 'physionet_submission/character_level'
+base_dir = 'character_level'
 doc_jsons = [f for f in os.listdir(base_dir) if f.endswith('.json')]
 df_data = []
 for jf in tqdm(doc_jsons):
@@ -60,5 +57,5 @@ for jf in tqdm(doc_jsons):
 
 df = pd.DataFrame(df_data, columns=['doc_id', 'sent_index', 'sentence', 'labels'])
 
-out_file = 'physionet_test/all_revised.csv'
+out_file = 'all_revised.csv'
 df.to_csv(out_file, index=False)
