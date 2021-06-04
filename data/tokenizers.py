@@ -7,18 +7,15 @@ import pickle
 from enum import Enum
 from dataclasses import dataclass
 from functools import lru_cache
-import xml.etree.ElementTree as ET
 import typing as t
 
 import boto3
 import spacy
 import stanfordnlp
 import nltk
-import editdistance
 import pendulum
 import random
 from tqdm.auto import tqdm
-from nnsplit import NNSplit
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy import spatial
 import syntok.segmenter
@@ -66,10 +63,6 @@ def load_tokenizer(type_: str):
             tokenize_pretokenized=True,
             models_dir=STANFORDNLP_DIR,
         )
-    elif type_ == "nnsplit":
-        return NNSplit("en")
-    elif type_ == "deepsegment":
-        return DeepSegment("en")
     elif type_ == "wboag":
         # wboag (mimic_utils) tokenization function is called on-demand
         return None
@@ -113,20 +106,6 @@ class SentenceTokenizer:
 
             def tokenize(text: str):
                 return nltk.sent_tokenize(text)
-
-        elif type_ == "nnsplit":
-
-            def tokenize(text: str):
-                sentences = tokenizer.split([text])[0]
-                return [
-                    [token.text + token.whitespace for token in sent]
-                    for sent in sentences
-                ]
-
-        elif type_ == "deepsegment":
-
-            def tokenize(text: str):
-                return tokenizer.segment(text)
 
         elif type_ == "wboag":
 
@@ -218,12 +197,6 @@ class WordTokenizer:
                     # NOTE: uncomment to restore more of the original document text
                     # all_sentences.append('\n\n')
                 return all_toks
-
-        elif type_ == "nnsplit":
-
-            def tokenize(text: str):
-                sentence = tokenizer.split([text])[0][0]
-                return [token.text for token in sentence]
 
         else:
             raise ValueError(f"Unknown tokenizer type: {type}")
