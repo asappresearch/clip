@@ -6,6 +6,15 @@ James Mullenbach, Yada Pruksachatkun, Sean Adler, Jennifer Seale, Jordan Swartz,
 ACL 2021
 ```
 
+[Paper link](https://aclanthology.org/2021.acl-long.109.pdf)
+
+# Pre-trained models
+
+We've uploaded two models to huggingface hub for public use. One is a MIMIC-DNote-BERT+Context model, one is of type TTP-BERT+Context-250k (see paper for details). 
+
+https://huggingface.co/jamesmullenbach/CLIP_TTP_BERT_Context_250k
+https://huggingface.co/jamesmullenbach/CLIP_DNote_BERT_Context
+
 # Setup
 
 1. (Optional, recommended) Create and activate a virtual environment
