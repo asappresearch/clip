@@ -22,9 +22,9 @@ https://huggingface.co/jamesmullenbach/CLIP_DNote_BERT_Context
 
 # Data
 
-The data will be hosted by PhysioNet, as it is based on MIMIC, which has access controls for privacy reasons and is also hosted by PhysioNet. Interested users will have to complete a short training course and sign a DUA with PhysioNet to gain access. 
+[Link](https://physionet.org/content/mimic-iii-clinical-action/1.0.0/)
 
-The link to the dataset will go here when the associated submission is finished with copy editing. 
+The data is hosted by PhysioNet, as it is based on MIMIC-III, which has access controls for privacy reasons and which is also hosted by PhysioNet. Interested users will have to complete a short training course and sign a DUA with PhysioNet to gain access.
 
 # Data processing
 
