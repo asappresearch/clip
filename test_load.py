@@ -3,7 +3,7 @@ from functools import partial
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
-from transformers import AutoTokenizer, BertConfig
+from transformers import AutoTokenizer
 import sys
 
 sys.path.append('sentclf')
@@ -18,15 +18,8 @@ TASK = 'multilabel'
 label2id = {label:ix for ix,label in enumerate(LABEL_TYPES)}
 id2label = {ix:label for label,ix in label2id.items()}
 
-model = BertSequenceMultilabelClassificationContext.from_pretrained('jamesmullenbach/CLIP_DNote_BERT_Context')#, num_labels=7, finetuning_task="text_classification", label2id=label2id, id2label=id2label)
+model = BertSequenceMultilabelClassificationContext.from_pretrained('jamesmullenbach/CLIP_DNote_BERT_Context')
 tokenizer = AutoTokenizer.from_pretrained('jamesmullenbach/CLIP_DNote_BERT_Context')
-config = BertConfig.from_pretrained(
-    'jamesmullenbach/CLIP_DNote_BERT_Context',
-    num_labels=len(LABEL_TYPES),
-    finetuning_task="text_classification",
-    label2id=label2id,
-    id2label=id2label,
-)
 
 model.set_sep_token_id(tokenizer.sep_token_id)
 model.set_n_context_sentences(N_CONTEXT_SENTENCES)
