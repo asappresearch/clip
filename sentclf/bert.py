@@ -24,7 +24,6 @@ from transformers import (
 from bert_model import (
         BertForSequenceMultilabelClassification,
         BertSequenceMultilabelClassificationContext,
-        BertCNNContextMultilabel,
         )
 import binary_eval
 from constants import *
@@ -189,18 +188,10 @@ def ctx_collator(batch, task, tokenizer, eval=False, doc_position=False, abc=Fal
         return {'input_ids': toks, 'attention_mask': mask, 'labels': labels, 'token_type_ids': tok_type_ids, 'doc_positions': doc_poses, 'doc_ids': doc_ids, 'sent_ixs': sent_ixs}
 
 
-def select_inputs(x, args):
+def select_inputs(x):
     inputs = {'input_ids': x['input_ids'], 'attention_mask': x['attention_mask'], 'labels': x['labels']}
     if 'token_type_ids' in x:
         inputs['token_type_ids'] = x['token_type_ids']
-    if args.doc_position:
-        inputs['doc_positions'] = x['doc_positions']
-    if args.use_penultimate_repr or args.sum_last_four:
-        inputs['output_hidden_states'] = True
-    if args.use_penultimate_repr:
-        inputs['layer_repr'] = 'penultimate'
-    elif args.sum_last_four:
-        inputs['layer_repr'] = 'sum_last_four'
     return inputs
 
 def gather_predictions(args, model, loader, task, device, doc_position=False, select_inputs=select_inputs, save_preds=False, max_preds=1e9):
@@ -367,18 +358,11 @@ def evaluate(args, model, dv_loader, task, device, tokenizer, save_fps=False, ou
     else:
         return metrics
 
-def args_to_model(n_context_sentences, cnn_on_top):
-    if cnn_on_top:
-        if n_context_sentences == 0:
-            print("not a valid combination: cnn with no context")
-            sys.exit(0)
-        else:
-            return BertCNNContextMultilabel
+def args_to_model(n_context_sentences):
+    if n_context_sentences == 0:
+        return BertForSequenceMultilabelClassification
     else:
-        if n_context_sentences == 0:
-            return BertForSequenceMultilabelClassification
-        else:
-            return BertSequenceMultilabelClassificationContext
+        return BertSequenceMultilabelClassificationContext
     return None
 
 def load_pretrained_local(model, args):
@@ -387,12 +371,6 @@ def load_pretrained_local(model, args):
     if args.eval_model:
         model.load_state_dict(sd)
     else:
-        if args.cnn_on_top:
-            sd_conv = {
-                    'weight': sd['conv.weight'],
-                    'bias': sd['conv.bias'],
-                    }
-            model.conv.load_state_dict(sd_conv)
         sd_bert = {k[len('bert.'):] : v for k, v in sd.items() if 'bert' in k}
         model.bert.load_state_dict(sd_bert)
 
@@ -419,7 +397,6 @@ def main():
     parser.add_argument("--max_steps", type=int, default=-1, help="put a positive number to limit number of training steps for debugging")
     parser.add_argument("--eval_steps", type=int, default=3000, help="number of steps between evaluations during training")
     parser.add_argument("--print_every", type=int, default=1e3, help="how often (in batches) to print avg'd loss")
-    parser.add_argument("--cnn_on_top", action="store_true", help="set to use CNN on top of bert embedded tokens")
     parser.add_argument("--abc", action="store_true", help="set to use two types of context embedddings to distinguish left vs. right-context")
     parser.add_argument("--doc_position", action="store_true", help="set to use relative document position feature")
     parser.add_argument("--run_test", action="store_true", help="set to run on test too after running on dev at the end")
@@ -467,7 +444,7 @@ def main():
     )
 
     # load model
-    model_class = args_to_model(args.n_context_sentences, args.cnn_on_top)
+    model_class = args_to_model(args.n_context_sentences)
     model = model_class.from_pretrained(args.model, config=config)
 
     # customize model via args

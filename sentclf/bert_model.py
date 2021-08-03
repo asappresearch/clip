@@ -1,5 +1,5 @@
-from transformers import BertPreTrainedModel, BertModel, BertForMaskedLM
-from transformers.modeling_bert import BertLMPredictionHead
+from transformers import BertPreTrainedModel, BertModel, BertForMaskedLM, BertForSequenceClassification
+from transformers.models.bert.modeling_bert import BertLMPredictionHead
 import torch
 import torch.nn as nn
 from torch.nn import CrossEntropyLoss, KLDivLoss

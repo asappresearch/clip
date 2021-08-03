@@ -15,6 +15,8 @@ We've uploaded two models to huggingface hub for public use. One is a MIMIC-DNot
 https://huggingface.co/jamesmullenbach/CLIP_TTP_BERT_Context_250k
 https://huggingface.co/jamesmullenbach/CLIP_DNote_BERT_Context
 
+The label-specific thresholds for these models are supplied in this repo, as `clip_dnote_label_threshs.npy` and `clip_ttp_label_threshs.npy`, loadable via `np.load`. `test_load.py` shows a full example of how to load these two models, feed them data, and extract predictions. 
+
 # Setup
 
 1. (Optional, recommended) Create and activate a virtual environment

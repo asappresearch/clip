@@ -1,0 +1,8 @@
+doc_id,sent_index,sentence,labels
+1337,0,"['test', 'sentence', '1']",[]
+1337,1,"['test', 'sentence', '2']",['I-Appointment-related followup']
+1338,0,"['test', 'sentence', '3']",['I-Medication-related followups']
+1338,1,"['test', 'sentence', '4']",[]
+1339,0,"['pt', 'should', 'schedule', 'consult', 'with', 'radiology']",['I-Appointment-related followup']
+1339,1,"['no', 'heavy', 'lifting']",['I-Medication-related followups']
+1339,1,"['vancomycin', '2', 'wks']",['I-Medication-related followups']
